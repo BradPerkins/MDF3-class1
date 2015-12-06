@@ -1,13 +1,14 @@
 package com.example.bradperkins.project1;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by bradperkins on 11/30/15.
@@ -17,6 +18,9 @@ public class BoundService extends Service {
 
     public MediaPlayer mPlayer;
     MusicData mMusicData;
+    int song1 = R.raw.supersoaker;
+    public ArrayList<MusicData> musicList;
+    public int songIndex = 0;
 
 
     public class BoundServiceBinder extends Binder {
@@ -55,24 +59,19 @@ public class BoundService extends Service {
     }
 
     //Play Player
-    public void play(Context context){
-//        MediaPlayer mPlayer = new MediaPlayer();
-//
-//        try {
-//            mPlayer.setDataSource(this, Uri.parse(uri1));
-//            mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mp) {
-//                    mp.start();
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public void play(){
+
+        int demo = R.raw.comebackstory;
+
         stop();
-        mPlayer = MediaPlayer.create(context,R.raw.supersoaker);
+
+
+        int current = musicList.get(songIndex).getSongUri();
+
+        mPlayer = MediaPlayer.create(this, current);
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
+
                 stop();
             }
         });

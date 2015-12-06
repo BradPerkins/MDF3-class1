@@ -7,9 +7,9 @@ public class MusicData{
 
     public String title;
     public String artist;
-    public String songUri;
+    public int songUri;
 
-    MusicData(String _artist, String _title, String _songUri ){
+    MusicData(String _artist, String _title, int _songUri ){
         artist = _artist;
         title = _title;
         songUri = _songUri;
@@ -19,24 +19,14 @@ public class MusicData{
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getArtist() {
         return artist;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getSongUri() {
+    public int getSongUri() {
         return songUri;
     }
 
-    public void setSongUri(String songUri) {
-        this.songUri = songUri;
-    }
 
 }

@@ -32,13 +32,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //Adds Music Data
-        String song1 = String.valueOf(R.raw.supersoaker);
-        String song2 = (String.valueOf(R.raw.comebackstory));
-        String song3 = (String.valueOf(R.raw.dontmatter));
+        int song1 = R.raw.supersoaker;
+        int song2 = R.raw.comebackstory;
+        int song3 = R.raw.dontmatter;
 
         musicData.add(new MusicData("Kings of Leon", "Super Soaker", song1));
         musicData.add(new MusicData("Kings of Leon", "Comeback Story", song2));
         musicData.add(new MusicData("Kings of Leon", "Dont Matter", song3));
+
+        System.out.println(String.valueOf(musicData.get(0).getTitle()));
 
 
         findViewById(R.id.playBtn).setOnClickListener(this);
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startService(intent);
             bindService(intent, this, Context.BIND_AUTO_CREATE);
             mBound = true;
-            mBoundService.play(this);
+            mBoundService.play();
         }
         else if(view.getId() == R.id.stopBtn) {
             Log.i("MainActivity", "Stop tapped!!!!!");
