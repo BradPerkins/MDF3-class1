@@ -18,11 +18,14 @@ public class FormFragment extends Fragment {
     private static final int REQUEST_TAKE_PICTURE = 0x01001;
 
 
-    EditText nameET;
-    EditText titleET;
     Button takePic;
     Button savePic;
+
     public static ImageView imageView;
+    public static EditText nameET;
+    public static EditText titleET;
+    public static double photoLng;
+    public static double photoLat;
 
     FormActivity mFormActivity;
 
@@ -56,7 +59,6 @@ public class FormFragment extends Fragment {
         takePic = (Button) view.findViewById(R.id.take_pic);
 
         return view;
-
     }
 
 
