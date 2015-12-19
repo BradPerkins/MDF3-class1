@@ -10,13 +10,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.bradperkins.project4.R;
-import com.example.bradperkins.project4.activities.FormActivity;
 
+
+/**
+ * Created by bradperkins on 12/16/15.
+ */
 
 public class FormFragment extends Fragment {
-
-    private static final int REQUEST_TAKE_PICTURE = 0x01001;
-
 
     Button takePic;
     Button savePic;
@@ -24,10 +24,6 @@ public class FormFragment extends Fragment {
     public static ImageView imageView;
     public static EditText nameET;
     public static EditText titleET;
-    public static double photoLng;
-    public static double photoLat;
-
-    FormActivity mFormActivity;
 
     public static FormFragment newInstance() {
         FormFragment fragment = new FormFragment();
@@ -60,7 +56,6 @@ public class FormFragment extends Fragment {
 
         return view;
     }
-
 
 
 }

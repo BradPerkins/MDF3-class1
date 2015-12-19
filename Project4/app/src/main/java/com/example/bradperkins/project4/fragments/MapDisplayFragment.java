@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Created by bradperkins on 12/17/15.
  */
+
 public class MapDisplayFragment extends MapFragment {
 
 

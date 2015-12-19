@@ -55,12 +55,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyC815lNQsVKl4fZml6WHoVdEOfZyqOjWyI" />
 
-        <provider
-            android:name=".DataBaseUtils.PhotoProvider"
-            android:authorities="com.example.bradperkins.project4"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="com.example.bradperkins.project4"/>
 
 
     </application>

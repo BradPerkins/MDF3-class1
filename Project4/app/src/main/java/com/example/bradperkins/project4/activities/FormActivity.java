@@ -2,7 +2,7 @@ package com.example.bradperkins.project4.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,23 +21,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.example.bradperkins.project4.DataBaseUtils.DBOpenHelper;
-import com.example.bradperkins.project4.DataBaseUtils.PhotoProvider;
 import com.example.bradperkins.project4.R;
 import com.example.bradperkins.project4.fragments.FormFragment;
+import com.example.bradperkins.project4.utilities.Photo;
+import com.example.bradperkins.project4.utilities.PhotoHelper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+/**
+ * Created by bradperkins on 12/16/15.
+ */
 
 public class FormActivity extends AppCompatActivity implements LocationListener {
 
+    private static final String FILENAME = "photo_data.txt";
+    //private static ArrayList<Photo> photoObjectArray = new ArrayList<>();
+
     Uri mImageUri;
 
-    LocationManager mManager;
+    PhotoHelper mPhotoHelper;
+    Photo mPhoto;
 
-    double mLatitude;
-    double mLongitude;
+    LocationManager mManager;
+    String mCoordinates;
+    private String imageName;
+
+    ArrayList<Photo> photoData;
 
     private static final int REQUEST_TAKE_PICTURE = 0x01001;
     private static final int REQUEST_ENABLE_GPS = 0x02001;
@@ -48,6 +64,8 @@ public class FormActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+
+//        mPhotoHelper.checkFile();
 
         mManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -67,30 +85,60 @@ public class FormActivity extends AppCompatActivity implements LocationListener 
     //Save PhotoData
     public void savePic(View view) {
 
+        photoData = new ArrayList<>();
         enableGps();
 
+        File external = Environment.getExternalStorageDirectory();
+        File newFolder = new File(external, "project4");
+        if(!newFolder.exists()) {
+            newFolder.mkdir();
+        }
+        File newFile = new File(newFolder, FILENAME);
+        if(!newFile.exists()) {
+            try {
+                newFile.createNewFile();
+                Log.i("File", "FileCreated: " + FILENAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         String pName = formFrag.nameET.getText().toString().trim();
-        String pTitle = formFrag.titleET.getText().toString().trim();
+        String pDetail = formFrag.titleET.getText().toString().trim();
         String pImageUri = mImageUri.toString();
-        double pLat = mLatitude;
-        double pLng = mLongitude;
+        String pCoords = mCoordinates;
 
-        ContentValues values = new ContentValues();
-        values.put(DBOpenHelper.PHOTO_NAME, pName);
-        values.put(DBOpenHelper.PHOTO_TITLE, pTitle);
-        values.put(DBOpenHelper.PHOTO_URI, pImageUri);
-        values.put(DBOpenHelper.PHOTO_LATITUDE, pLat);
-        values.put(DBOpenHelper.PHOTO_LONGITUDE, pLng);
+//        mPhoto.setName(pName);
+//        mPhoto.setDetail(pDetail);
+////        mPhoto.setUri(pImageUri);
+////        mPhoto.setCoordinates(pCoords);
+//        //mPhoto.setImageName(imageName);
 
-        getContentResolver().insert(PhotoProvider.CONTENT_URI, values);
-        setResult(RESULT_OK);
+        photoData.add(mPhoto);
 
-        finish();
+        writeData(photoData);
+        Log.i("DemoPH", "write list size is ---- " + photoData.size());
 
-        Log.i("Check", " !!!! ");
+        Intent intent = new Intent(this, MainActivity.class);
+
+        intent.putExtra("name", pName);
+        intent.putExtra("detail", pDetail);
+        intent.putExtra("image", pImageUri);
+        intent.putExtra("coords", pCoords);
+
+        startActivity(intent);
+        Log.i("Check", " New Data Added ");
 
 
     }
+
+    //Stores the photData from array
+//    public static void addData(Photo p, Context context) {
+//            if (p != null) {
+//                photoObjectArray.add(p);
+//                PhotoHelper.writeData(photoObjectArray, context);
+//            }
+//        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -105,7 +153,6 @@ public class FormActivity extends AppCompatActivity implements LocationListener 
                 }
             }
         }
-
     }
 
 
@@ -113,7 +160,7 @@ public class FormActivity extends AppCompatActivity implements LocationListener 
 
         System.out.println("Getting image URI");
 
-        String imageName = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date(System.currentTimeMillis()));
+        imageName = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date(System.currentTimeMillis()));
 
         File imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File appDir = new File(imageDir, "Project4");
@@ -139,6 +186,27 @@ public class FormActivity extends AppCompatActivity implements LocationListener 
         Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         scanIntent.setData(imageUri);
         sendBroadcast(scanIntent);
+    }
+
+    public void writeData(ArrayList<Photo> data){
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(data);
+
+            //Log.i("DemoPH", "write list size is ---- " + photos.size());
+//            oos.flush();
+            //Close in reverse order
+            oos.close();
+//            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -197,9 +265,7 @@ public class FormActivity extends AppCompatActivity implements LocationListener 
             Location loc = mManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if(loc != null) {
 
-                mLatitude = loc.getLatitude();
-                mLongitude = loc.getLongitude();
-
+                mCoordinates = loc.getLatitude() + " " + loc.getLongitude();
                 Log.i("Location", " " + loc.getLatitude() + "    " +loc.getLongitude());
             }
 

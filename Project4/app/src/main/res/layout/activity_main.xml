@@ -13,16 +13,5 @@
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_below="@+id/testButton"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test Button"
-        android:onClick="testBtn"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/testButton"/>
-
-
 
 </RelativeLayout>

@@ -5,10 +5,36 @@
              android:id="@+id/view_fragment_container"
              tools:context="com.example.bradperkins.project4.fragments.ViewFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_view_fragment"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="314dp"
+            android:layout_height="314dp"
+            android:id="@+id/photo_image_view"
+            android:layout_gravity="center_horizontal|top"
+            android:background="#f1f1f1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/title_text"
+            android:layout_gravity="center_horizontal|bottom"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/detail_text"
+            android:layout_gravity="center_horizontal"/>
+
+
+    </LinearLayout>
+
+
 
 </FrameLayout>

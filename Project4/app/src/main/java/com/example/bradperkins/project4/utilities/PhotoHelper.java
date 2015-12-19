@@ -1,44 +1,82 @@
 package com.example.bradperkins.project4.utilities;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by bradperkins on 12/15/15.
  */
-public class PhotoHelper extends Activity {
+public class PhotoHelper {
 
+//    public static final String FILENAME = "photo_data.txt";
+//
+//    public static void writeData(Context context){
+//        FileOutputStream fos = null;
+//        ObjectOutputStream oos = null;
+//        try {
+//            fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+//            oos = new ObjectOutputStream(fos);
+//            oos.writeObject();
+//
+//            Log.i("DemoPH", "write list size is ---- " + photos.size());
+////            oos.flush();
+//            //Close in reverse order
+//            oos.close();
+////            fos.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
-    public Uri getImageUri() {
-
-        String imageName = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date(System.currentTimeMillis()));
-
-        File imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File appDir = new File(imageDir, "CameraDemoAppPics");
-        appDir.mkdirs();
-
-        File image = new File(appDir, imageName + ".jpg");
-        try {
-            image.createNewFile();
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return Uri.fromFile(image);
-    }
-
-    public void addImageToGallery(Uri imageUri) {
-        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        scanIntent.setData(imageUri);
-        sendBroadcast(scanIntent);
-    }
+//
+//    public static ArrayList<Photo> readFromFile(Context context) {
+//        ArrayList<Photo> photos = null;
+//        FileInputStream fin;
+//        try {
+//            fin = context.openFileInput(FILENAME);
+//            ObjectInputStream ois = new ObjectInputStream(fin);
+//            photos = (ArrayList<Photo>) ois.readObject();
+//            ois.close();
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (StreamCorruptedException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Log.i("DemoPH", "RESUME list size is ---- " + photos.size());
+//
+//        return photos;
+//    }
+//
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
